@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>장 건강 자가테스트 — good routine project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --black: #080808;
+  --white: #f5f5f0;
+  --purple: #7B5CF0;
+  --purple-light: #B69FFF;
+  --purple-dark: #1A0A2E;
+  --gray: #888;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Noto Sans KR', sans-serif;
+  min-height: 100svh;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #111;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--purple-light);
+  text-decoration: none;
+}
+
+.nav-back {
+  font-size: 13px;
+  color: var(--gray);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--white); }
+
+/* INTRO */
+.intro {
+  padding: 48px 24px 40px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.intro-tag {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.intro-title {
+  font-weight: 900;
+  font-size: clamp(28px, 7vw, 44px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.intro-title em {
+  font-style: normal;
+  color: var(--purple-light);
+}
+
+.intro-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,245,240,0.6);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.intro-rule {
+  background: rgba(123,92,240,0.1);
+  border: 1px solid rgba(123,92,240,0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--purple-light);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--purple);
+  color: var(--white);
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.start-btn:hover {
+  background: var(--purple-light);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+/* PROGRESS */
+.progress-wrap {
+  padding: 0 24px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+}
+
+.progress-count {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--purple-light);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--purple), var(--purple-light));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* QUESTION */
+.question-wrap {
+  padding: 0 24px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.q-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: rgba(123,92,240,0.3);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.q-text {
+  font-size: clamp(16px, 4vw, 22px);
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid #222;
+  background: #0d0d0d;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.q-option:hover {
+  border-color: var(--purple);
+  background: rgba(123,92,240,0.08);
+}
+
+.q-option.selected {
+  border-color: var(--purple);
+  background: rgba(123,92,240,0.15);
+  color: var(--white);
+}
+
+.q-option-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.q-option.selected .q-option-icon {
+  background: var(--purple);
+  border-color: var(--purple);
+}
+
+/* 생활습관 문항 */
+.q-option-multi {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.q-option-multi .q-option {
+  padding: 14px 18px;
+}
+
+/* NAV BUTTONS */
+.q-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.btn-prev {
+  background: none;
+  border: 1px solid #333;
+  color: var(--gray);
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.2s;
+}
+.btn-prev:hover { border-color: var(--white); color: var(--white); }
+
+.btn-next {
+  background: var(--purple);
+  border: none;
+  color: var(--white);
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-next:hover { background: var(--purple-light); color: var(--black); }
+.btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* RESULT */
+.result-wrap {
+  padding: 48px 24px 60px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.result-emoji {
+  font-size: 64px;
+  margin-bottom: 24px;
+  display: block;
+  animation: bounceIn 0.6s ease;
+}
+
+.result-tag {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.result-title {
+  font-weight: 900;
+  font-size: clamp(22px, 6vw, 36px);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.result-score {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: var(--gray);
+  letter-spacing: 0.2em;
+  margin-bottom: 32px;
+}
+
+.result-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,245,240,0.7);
+  line-height: 1.9;
+  margin-bottom: 40px;
+  text-align: left;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.result-solution {
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.result-solution-title {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.result-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--purple);
+  color: var(--white);
+  padding: 20px 24px;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cta-primary:hover {
+  background: var(--purple-light);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+
+.cta-primary.secondary {
+  background: transparent;
+  border: 1px solid rgba(123,92,240,0.5);
+}
+
+.cta-primary.secondary:hover {
+  background: rgba(123,92,240,0.1);
+  color: var(--white);
+}
+
+.cta-label {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.cta-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cta-arrow {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.result-retake {
+  margin-top: 32px;
+  font-size: 13px;
+  color: var(--gray);
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: color 0.2s;
+}
+.result-retake:hover { color: var(--white); }
+
+/* SCORE METER */
+.score-meter {
+  width: 100%;
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px 0 8px;
+}
+
+.score-meter-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.score-meter-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+}
+
+/* SECTIONS */
+#intro-section, #test-section, #result-section {
+  display: none;
+}
+#intro-section.active, #test-section.active, #result-section.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (min-width: 768px) {
+  .result-ctas { flex-direction: row; }
+  .cta-primary { flex: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">← 메인으로</a>
+  <a href="index.html" class="nav-logo">GOOD ROUTINE PROJECT</a>
+</nav>
+
+<!-- INTRO -->
+<section id="intro-section" class="active">
+  <div class="intro">
+    <span class="intro-tag">Gut Health Test</span>
+    <h1 class="intro-title">
+      내 몸의 대사 공장<br>
+      <em>장 건강 자가진단 테스트</em>
+    </h1>
+    <p class="intro-desc">
+      최근 한 달간, 일주일에 2회 이상 반복적으로<br>
+      느낀 증상을 체크해 주세요.
+    </p>
+    <button class="start-btn" onclick="startTest()">
+      테스트 시작하기 →
+    </button>
+  </div>
+</section>
+
+<!-- TEST -->
+<section id="test-section">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">PROGRESS</span>
+      <span class="progress-count" id="progress-count">1 / 18</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
+    </div>
+  </div>
+
+  <div class="question-wrap" id="question-wrap">
+    <!-- 문항이 JS로 렌더링됨 -->
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result-section">
+  <div class="result-wrap" id="result-wrap">
+    <!-- 결과가 JS로 렌더링됨 -->
+  </div>
+</section>
+
+<script>
+const questions = [
+  // 1~16: 점수 문항 (yes=1, no=0)
+  { id: 1, text: "밥 먹고 나면 배에 가스가 차거나 빵빵한 느낌이 자주 생긴다", scored: true },
+  { id: 2, text: "화장실을 3일 이상 못 가거나 반대로 하루에 3번 이상 간다", scored: true },
+  { id: 3, text: "볼일을 봐도 개운하지 않고 잔변감이 남는다", scored: true },
+  { id: 4, text: "긴장하거나 특정 음식을 먹으면 갑자기 배가 아프거나 무른 변이 나온다", scored: true },
+  { id: 5, text: "식사 후 명치가 꽉 막히거나 소화가 안 되는 느낌이 자주 든다", scored: true },
+  { id: 6, text: "얼굴이나 몸에 뾰루지, 피부 트러블, 알레르기가 반복된다", scored: true },
+  { id: 7, text: "밥 먹고 30분~1시간 안에 급격히 졸리거나 멍해진다", scored: true },
+  { id: 8, text: "오후 3~4시쯤 에너지가 뚝 떨어지고 단 것이나 커피가 당긴다", scored: true },
+  { id: 9, text: "배가 고프지 않은데도 단 것, 짠 것이 폭발적으로 당긴다", scored: true },
+  { id: 10, text: "적게 먹거나 운동해도 뱃살이 잘 안 빠진다", scored: true },
+  { id: 11, text: "먹는 양이 늘지 않았는데 복부 위주로 살이 붙는다", scored: true },
+  { id: 12, text: "탄수화물(빵, 면, 과자)을 먹기 시작하면 멈추기가 힘들다", scored: true },
+  { id: 13, text: "아침에 잠자리에서 일어나기가 무척 무겁고 힘들다", scored: true },
+  { id: 14, text: "충분히 잔 것 같은데도 개운하지 않고 만성 피로가 남아있다", scored: true },
+  { id: 15, text: "머리에 안개가 낀 것처럼 멍하고 집중력이 자주 떨어진다", scored: true },
+  { id: 16, text: "특별한 이유 없이 몸이 자주 붓는다", scored: true },
+  // 17~18: 생활습관 참고 문항
+  {
+    id: 17,
+    text: "설탕·밀가루·나쁜 기름·튀김을 일주일에 얼마나 드시나요?",
+    scored: false,
+    options: ["거의 안 먹는다", "주 1~2회", "주 3~4회", "거의 매일"]
+  },
+  {
+    id: 18,
+    text: "숨이 차거나 땀이 날 정도의 운동을 일주일에 얼마나 하시나요?",
+    scored: false,
+    options: ["거의 안 한다", "주 1~2회", "주 3~4회", "거의 매일"]
+  }
+];
+
+const results = [
+  {
+    min: 0, max: 2,
+    emoji: "😃",
+    tag: "대사 시스템 안정",
+    title: "대사 엔진은\n현재 '청신호'입니다",
+    color: "#4CAF50",
+    desc: "인슐린 저항성과 장내 미생물 불균형을 점검하는 16개 항목 중 2개 이하를 체크했어요.\n\n현재 장내 미생물 생태계가 건강한 균형을 유지하며 에너지 생산, 면역, 호르몬 조율이 원활하게 이루어지고 있는 상태입니다.\n\n현재 상태를 유지하면서 한 단계 더 활력을 극대화하고 싶다면 아래 솔루션을 시작해보세요.",
+    solution: "지금 상태를 데이터로 확인하고 더 정밀하게 관리해보세요."
+  },
+  {
+    min: 3, max: 6,
+    emoji: "⚠️",
+    tag: "대사 시스템 초기 저하",
+    title: "대사 시스템\n초기 저하 상태에요",
+    color: "#FFC107",
+    desc: "인슐린 저항성과 장내 미생물 불균형을 점검하는 16개 항목 중 3개 이상을 체크했어요.\n\n안정 구간을 벗어나 장내 환경이 흔들리면 몸의 에너지 공장이 효율을 잃고, 나이보다 신체 노화가 빠르게 진행될 가능성이 있어요.\n\n지금은 무리한 식단과 운동보다는 '장'을 바로 잡는 것이 먼저입니다.",
+    solution: "불균형이 더 깊어지기 전에 지금 바로 리셋하세요."
+  },
+  {
+    min: 7, max: 11,
+    emoji: "🚨",
+    tag: "대사 시스템 둔화 의심",
+    title: "대사 시스템\n둔화 의심 상태에요",
+    color: "#FF5722",
+    desc: "인슐린 저항성과 장내 미생물 불균형을 점검하는 16개 항목 중 7개 이상을 체크했어요.\n\n안정 구간보다 3배 이상 많은 수치입니다. 똑같이 먹거나 적게 먹어도 살이 더 잘 찌고 늘 피곤한 것은 장 환경이 균형을 잃기 시작했다는 신호일 수 있습니다.\n\n에너지 생산, 면역, 호르몬, 뇌 기능까지 영향을 미칩니다.",
+    solution: "불균형이 더 심해지기 전에 지금 바로 악순환을 끊으세요."
+  },
+  {
+    min: 12, max: 16,
+    emoji: "🚨",
+    tag: "대사 시스템 위험 의심",
+    title: "대사 시스템\n위험 의심 상태에요",
+    color: "#E91E63",
+    desc: "인슐린 저항성과 장내 미생물 불균형을 점검하는 16개 항목 중 12개 이상을 체크했어요.\n\n안정 구간보다 6배 이상 많은 수치입니다. 현재 선택한 증상들은 우리 몸의 컨트롤 타워인 장 환경의 불균형이 지속되고 있다는 신호일 수 있습니다.\n\n이대로 방치하면 대사 효율 저하가 고착화될 수 있습니다.",
+    solution: "더 늦기 전에 지금 당장 대사 시스템을 리셋하세요."
+  }
+];
+
+let currentQ = 0;
+let answers = new Array(18).fill(null);
+let score = 0;
+
+function startTest() {
+  document.getElementById('intro-section').classList.remove('active');
+  document.getElementById('test-section').classList.add('active');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const wrap = document.getElementById('question-wrap');
+  const progress = ((currentQ + 1) / 18 * 100).toFixed(0);
+
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('progress-count').textContent = `${currentQ + 1} / 18`;
+
+  if (q.scored) {
+    // 1~16번: 있다/없다
+    wrap.innerHTML = `
+      <div class="q-num">0${q.id < 10 ? q.id : q.id}</div>
+      <p class="q-text">${q.text}</p>
+      <div class="q-options">
+        <button class="q-option ${answers[currentQ] === 1 ? 'selected' : ''}" onclick="selectAnswer(1)">
+          <div class="q-option-icon">${answers[currentQ] === 1 ? '✓' : ''}</div>
+          <span>최근 한 달간 일주일에 2회 이상 경험했다</span>
+        </button>
+        <button class="q-option ${answers[currentQ] === 0 ? 'selected' : ''}" onclick="selectAnswer(0)">
+          <div class="q-option-icon">${answers[currentQ] === 0 ? '✓' : ''}</div>
+          <span>그렇지 않다</span>
+        </button>
+      </div>
+      <div class="q-nav">
+        <button class="btn-prev" onclick="prevQ()" ${currentQ === 0 ? 'style="visibility:hidden"' : ''}>← 이전</button>
+        <button class="btn-next" id="next-btn" onclick="nextQ()" ${answers[currentQ] === null ? 'disabled' : ''}>
+          ${currentQ === 17 ? '결과 보기 →' : '다음 →'}
+        </button>
+      </div>
+    `;
+  } else {
+    // 17~18번: 객관식
+    wrap.innerHTML = `
+      <div class="q-num">${q.id}</div>
+      <p class="q-text" style="margin-bottom:8px;">생활습관 참고 문항</p>
+      <p class="q-text">${q.text}</p>
+      <div class="q-option-multi">
+        ${q.options.map((opt, i) => `
+          <button class="q-option ${answers[currentQ] === i ? 'selected' : ''}" onclick="selectAnswer(${i})">
+            <div class="q-option-icon">${answers[currentQ] === i ? '✓' : ''}</div>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="q-nav">
+        <button class="btn-prev" onclick="prevQ()">← 이전</button>
+        <button class="btn-next" id="next-btn" onclick="nextQ()" ${answers[currentQ] === null ? 'disabled' : ''}>
+          ${currentQ === 17 ? '결과 보기 →' : '다음 →'}
+        </button>
+      </div>
+    `;
+  }
+}
+
+function selectAnswer(val) {
+  answers[currentQ] = val;
+  renderQuestion();
+}
+
+function nextQ() {
+  if (answers[currentQ] === null) return;
+  if (currentQ === 17) {
+    showResult();
+    return;
+  }
+  currentQ++;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevQ() {
+  if (currentQ === 0) return;
+  currentQ--;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showResult() {
+  // 1~16번만 점수 합산
+  score = answers.slice(0, 16).filter(a => a === 1).length;
+
+  const result = results.find(r => score >= r.min && score <= r.max) || results[3];
+
+  document.getElementById('test-section').classList.remove('active');
+  document.getElementById('result-section').classList.add('active');
+
+  const meterPct = (score / 16 * 100).toFixed(0);
+
+  document.getElementById('result-wrap').innerHTML = `
+    <span class="result-emoji">${result.emoji}</span>
+    <span class="result-tag">${result.tag}</span>
+    <h2 class="result-title">${result.title.replace('\n', '<br>')}</h2>
+    <p class="result-score">16개 항목 중 ${score}개 체크</p>
+
+    <div class="score-meter">
+      <div class="score-meter-fill" style="width: ${meterPct}%; background: linear-gradient(to right, #4CAF50, ${result.color});"></div>
+    </div>
+    <div class="score-meter-labels">
+      <span>안정</span>
+      <span>초기저하</span>
+      <span>둔화의심</span>
+      <span>위험의심</span>
+    </div>
+
+    <div class="result-desc" style="margin-top: 32px;">
+      ${result.desc.replace(/\n/g, '<br><br>')}
+    </div>
+
+    <div class="result-solution">
+      <p class="result-solution-title">솔루션 추천</p>
+      <p style="font-size:14px; color:rgba(245,245,240,0.7); line-height:1.7; margin-bottom:20px;">
+        ${result.solution}
+      </p>
+
+      <div class="result-ctas">
+        <a href="index.html#challenge" class="cta-primary">
+          <div>
+            <div class="cta-label">내 몸의 대사 공장, 장을 회복하는 단 6일 루틴</div>
+            <div class="cta-title">6일 장 대사 리셋 챌린지 자세히 보기</div>
+          </div>
+          <span class="cta-arrow">→</span>
+        </a>
+        <a href="index.html#mylab" class="cta-primary secondary">
+          <div>
+            <div class="cta-label">다이어트, 근 성장, 피로 회복? 당신의 문제가 해결되지 않는 진짜 원인</div>
+            <div class="cta-title">나의 장 속 미생물의 데이터를 확인하는 방법</div>
+          </div>
+          <span class="cta-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <button class="result-retake" onclick="retake()">
+      다시 테스트하기
+    </button>
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retake() {
+  currentQ = 0;
+  answers = new Array(18).fill(null);
+  score = 0;
+  document.getElementById('result-section').classList.remove('active');
+  document.getElementById('intro-section').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
